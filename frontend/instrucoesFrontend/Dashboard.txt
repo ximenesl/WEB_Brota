@@ -1,0 +1,292 @@
+<div className="w-[1506px] h-[917px] relative bg-white">
+    <div className="w-[1250px] h-[773px] px-8 pt-8 left-[256px] top-0 absolute bg-gray-50 inline-flex flex-col justify-start items-start gap-8">
+        <div className="self-stretch h-16 flex flex-col justify-start items-start gap-2">
+            <div className="self-stretch h-9 relative">
+                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-2xl font-normal font-['Arimo'] leading-9">Dashboard</div>
+            </div>
+            <div className="self-stretch h-6 relative">
+                <div className="left-0 top-[-2px] absolute justify-start text-gray-600 text-base font-normal font-['Arimo'] leading-6">Bem-vindo ao sistema de gestão de sementes</div>
+            </div>
+        </div>
+        <div className="self-stretch h-40 inline-flex flex-col justify-start items-start">
+            <div className="self-stretch self-stretch bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10 inline-flex flex-col justify-start items-start gap-6">
+                <div className="w-72 h-16 px-6 inline-flex justify-between items-center">
+                    <div className="w-28 h-5 flex justify-start items-start">
+                        <div className="justify-start text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Total de Sementes</div>
+                    </div>
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex justify-center items-center">
+                        <div className="w-4 h-4 relative overflow-hidden">
+                            <div className="w-1.5 h-3 left-[8px] top-[2px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-1.5 h-1 left-[2.67px] top-[5.33px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-2.5 h-0 left-[3.33px] top-[14px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                        </div>
+                    </div>
+                </div>
+                <div className="w-72 flex-1 px-6 flex flex-col justify-start items-start gap-1">
+                    <div className="self-stretch h-8 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-neutral-950 text-2xl font-normal font-['Arimo'] leading-8">1,234</div>
+                    </div>
+                    <div className="self-stretch h-4 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-gray-600 text-xs font-normal font-['Arimo'] leading-4">+12% este mês</div>
+                    </div>
+                </div>
+            </div>
+            <div className="self-stretch self-stretch bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10 inline-flex flex-col justify-start items-start gap-6">
+                <div className="w-72 h-16 px-6 inline-flex justify-between items-center">
+                    <div className="w-32 h-5 flex justify-start items-start">
+                        <div className="justify-start text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Sementes Plantadas</div>
+                    </div>
+                    <div className="w-8 h-8 bg-blue-500 rounded-full flex justify-center items-center">
+                        <div className="w-4 h-4 relative overflow-hidden">
+                            <div className="w-1 h-1 left-[10.67px] top-[4.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-3.5 h-1.5 left-[1.33px] top-[4.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                        </div>
+                    </div>
+                </div>
+                <div className="w-72 flex-1 px-6 flex flex-col justify-start items-start gap-1">
+                    <div className="self-stretch h-8 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-neutral-950 text-2xl font-normal font-['Arimo'] leading-8">856</div>
+                    </div>
+                    <div className="self-stretch h-4 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-gray-600 text-xs font-normal font-['Arimo'] leading-4">+8% este mês</div>
+                    </div>
+                </div>
+            </div>
+            <div className="self-stretch self-stretch bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10 inline-flex flex-col justify-start items-start gap-6">
+                <div className="w-72 h-16 px-6 inline-flex justify-between items-center">
+                    <div className="w-24 h-5 flex justify-start items-start">
+                        <div className="justify-start text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Jornadas Ativas</div>
+                    </div>
+                    <div className="w-8 h-8 bg-purple-500 rounded-full flex justify-center items-center">
+                        <div className="w-4 h-4 relative overflow-hidden">
+                            <div className="w-0 h-[2.67px] left-[5.33px] top-[1.33px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-0 h-[2.67px] left-[10.67px] top-[1.33px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-3 h-3 left-[2px] top-[2.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-3 h-0 left-[2px] top-[6.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                        </div>
+                    </div>
+                </div>
+                <div className="w-72 flex-1 px-6 flex flex-col justify-start items-start gap-1">
+                    <div className="self-stretch h-8 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-neutral-950 text-2xl font-normal font-['Arimo'] leading-8">23</div>
+                    </div>
+                    <div className="self-stretch h-4 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-gray-600 text-xs font-normal font-['Arimo'] leading-4">5 novas esta semana</div>
+                    </div>
+                </div>
+            </div>
+            <div className="self-stretch self-stretch bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10 inline-flex flex-col justify-start items-start gap-6">
+                <div className="w-72 h-16 px-6 inline-flex justify-between items-center">
+                    <div className="w-32 h-5 flex justify-start items-start">
+                        <div className="justify-start text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Taxa de Germinação</div>
+                    </div>
+                    <div className="w-8 h-8 bg-orange-500 rounded-full flex justify-center items-center">
+                        <div className="w-4 h-4 relative overflow-hidden">
+                            <div className="w-3.5 h-3.5 left-[1.33px] top-[1.33px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                            <div className="w-1 h-[2.67px] left-[6px] top-[6.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-white" />
+                        </div>
+                    </div>
+                </div>
+                <div className="w-72 flex-1 px-6 flex flex-col justify-start items-start gap-1">
+                    <div className="self-stretch h-8 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-neutral-950 text-2xl font-normal font-['Arimo'] leading-8">87%</div>
+                    </div>
+                    <div className="self-stretch h-4 inline-flex justify-start items-start">
+                        <div className="flex-1 justify-start text-gray-600 text-xs font-normal font-['Arimo'] leading-4">+3% este mês</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="self-stretch h-96 inline-flex flex-col justify-start items-start">
+            <div className="self-stretch self-stretch bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10 inline-flex flex-col justify-start items-start gap-6">
+                <div className="w-[579px] h-16 px-6 pt-6 inline-flex flex-col justify-start items-start">
+                    <div className="w-[531px] h-4 relative">
+                        <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-4">Jornadas em Progresso</div>
+                    </div>
+                    <div className="w-[531px] h-6 relative">
+                        <div className="left-0 top-[-2px] absolute justify-start text-gray-500 text-base font-normal font-['Arimo'] leading-6">Acompanhe o desenvolvimento das suas sementes</div>
+                    </div>
+                </div>
+                <div className="w-[579px] h-64 px-6 flex flex-col justify-start items-start gap-6">
+                    <div className="self-stretch h-10 flex flex-col justify-start items-start gap-2">
+                        <div className="self-stretch h-6 inline-flex justify-between items-center">
+                            <div className="w-24 h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Milho Crioulo</div>
+                            </div>
+                            <div className="w-24 h-5 relative">
+                                <div className="w-20 left-[8.20px] top-[-2px] absolute justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">105/130 dias</div>
+                            </div>
+                        </div>
+                        <div className="self-stretch h-2 pl-0 pr-32 bg-gray-950/20 rounded-full flex flex-col justify-start items-start overflow-hidden">
+                            <div className="self-stretch h-2 relative bg-gray-950" />
+                        </div>
+                    </div>
+                    <div className="self-stretch h-10 flex flex-col justify-start items-start gap-2">
+                        <div className="self-stretch h-6 inline-flex justify-between items-center">
+                            <div className="w-28 h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Milho Verde</div>
+                            </div>
+                            <div className="w-14 h-5 relative">
+                                <div className="w-16 left-[-8.34px] top-[-2px] absolute justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">42/95 dias</div>
+                            </div>
+                        </div>
+                        <div className="self-stretch h-2 pl-0 pr-80 bg-gray-950/20 rounded-full flex flex-col justify-start items-start overflow-hidden">
+                            <div className="self-stretch h-2 relative bg-gray-950" />
+                        </div>
+                    </div>
+                    <div className="self-stretch h-10 flex flex-col justify-start items-start gap-2">
+                        <div className="self-stretch h-6 inline-flex justify-between items-center">
+                            <div className="w-20 h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Feijão Preto</div>
+                            </div>
+                            <div className="w-16 h-5 relative">
+                                <div className="w-16 left-0 top-[-2px] absolute justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">85/90 dias</div>
+                            </div>
+                        </div>
+                        <div className="self-stretch h-2 pl-0 pr-14 bg-gray-950/20 rounded-full flex flex-col justify-start items-start overflow-hidden">
+                            <div className="self-stretch h-2 relative bg-gray-950" />
+                        </div>
+                    </div>
+                    <div className="self-stretch h-10 flex flex-col justify-start items-start gap-2">
+                        <div className="self-stretch h-6 inline-flex justify-between items-center">
+                            <div className="w-36 h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Pimentão Vermelho</div>
+                            </div>
+                            <div className="w-16 h-5 relative">
+                                <div className="w-20 left-[-7.80px] top-[-2px] absolute justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">24/120 dias</div>
+                            </div>
+                        </div>
+                        <div className="self-stretch h-2 pl-0 pr-96 bg-gray-950/20 rounded-full flex flex-col justify-start items-start overflow-hidden">
+                            <div className="self-stretch h-2 relative bg-gray-950" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="w-[581px] h-96 relative bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10">
+                <div className="w-[579px] h-16 px-6 pt-6 left-[1px] top-[1px] absolute inline-flex flex-col justify-start items-start">
+                    <div className="w-[531px] h-4 relative">
+                        <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-4">Atividades Recentes</div>
+                    </div>
+                    <div className="w-[531px] h-6 relative">
+                        <div className="left-0 top-[-2px] absolute justify-start text-gray-500 text-base font-normal font-['Arimo'] leading-6">Últimas atualizações do sistema</div>
+                    </div>
+                </div>
+                <div className="w-[531px] h-72 left-[25px] top-[95px] absolute inline-flex flex-col justify-start items-start gap-4">
+                    <div className="self-stretch h-16 relative border-b border-gray-100">
+                        <div className="w-2 h-2 left-0 top-[8px] absolute bg-green-500 rounded-full" />
+                        <div className="w-96 h-12 left-[20px] top-0 absolute inline-flex flex-col justify-start items-start gap-1">
+                            <div className="self-stretch h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Tomate Cereja</div>
+                            </div>
+                            <div className="self-stretch h-5 inline-flex justify-start items-start">
+                                <div className="flex-1 justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Plantio</div>
+                            </div>
+                        </div>
+                        <div className="w-20 h-5 left-[451.92px] top-0 absolute inline-flex justify-start items-start">
+                            <div className="justify-start text-gray-500 text-sm font-normal font-['Arimo'] leading-5">2 horas atrás</div>
+                        </div>
+                    </div>
+                    <div className="self-stretch h-16 relative border-b border-gray-100">
+                        <div className="w-2 h-2 left-0 top-[8px] absolute bg-green-500 rounded-full" />
+                        <div className="w-96 h-12 left-[20px] top-0 absolute inline-flex flex-col justify-start items-start gap-1">
+                            <div className="self-stretch h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Alface Romana</div>
+                            </div>
+                            <div className="self-stretch h-5 inline-flex justify-start items-start">
+                                <div className="flex-1 justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Germinação</div>
+                            </div>
+                        </div>
+                        <div className="w-20 h-5 left-[451.92px] top-0 absolute inline-flex justify-start items-start">
+                            <div className="justify-start text-gray-500 text-sm font-normal font-['Arimo'] leading-5">5 horas atrás</div>
+                        </div>
+                    </div>
+                    <div className="self-stretch h-16 relative border-b border-gray-100">
+                        <div className="w-2 h-2 left-0 top-[8px] absolute bg-blue-500 rounded-full" />
+                        <div className="w-96 h-12 left-[20px] top-0 absolute inline-flex flex-col justify-start items-start gap-1">
+                            <div className="self-stretch h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Manjericão</div>
+                            </div>
+                            <div className="self-stretch h-5 inline-flex justify-start items-start">
+                                <div className="flex-1 justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Rega</div>
+                            </div>
+                        </div>
+                        <div className="w-16 h-5 left-[467.22px] top-0 absolute inline-flex justify-start items-start">
+                            <div className="justify-start text-gray-500 text-sm font-normal font-['Arimo'] leading-5">1 dia atrás</div>
+                        </div>
+                    </div>
+                    <div className="self-stretch h-12 relative">
+                        <div className="w-2 h-2 left-0 top-[8px] absolute bg-green-500 rounded-full" />
+                        <div className="w-96 h-12 left-[20px] top-0 absolute inline-flex flex-col justify-start items-start gap-1">
+                            <div className="self-stretch h-6 relative">
+                                <div className="left-0 top-[-2px] absolute justify-start text-neutral-950 text-base font-normal font-['Arimo'] leading-6">Cenoura</div>
+                            </div>
+                            <div className="self-stretch h-5 inline-flex justify-start items-start">
+                                <div className="flex-1 justify-start text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Colheita</div>
+                            </div>
+                        </div>
+                        <div className="w-16 h-5 left-[461.28px] top-0 absolute inline-flex justify-start items-start">
+                            <div className="justify-start text-gray-500 text-sm font-normal font-['Arimo'] leading-5">2 dias atrás</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div className="w-64 h-[917px] pr-px left-0 top-0 absolute bg-white border-r border-gray-200 inline-flex flex-col justify-start items-start">
+        <div className="self-stretch h-28 px-6 pt-6 pb-px relative border-b border-gray-200 flex flex-col justify-start items-start">
+            <img className="w-40 h-20 left-[43px] top-[16px] absolute" src="https://placehold.co/168x75" />
+        </div>
+        <div className="w-64 h-16 px-4 pt-4 left-[1px] top-[347px] absolute border-t border-gray-200 flex flex-col justify-start items-start">
+            <div className="self-stretch h-9 relative rounded-lg">
+                <div className="w-4 h-4 left-[12px] top-[10px] absolute overflow-hidden">
+                    <div className="w-[3.33px] h-1.5 left-[10.67px] top-[4.67px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-neutral-950" />
+                    <div className="w-2 h-0 left-[6px] top-[8px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-neutral-950" />
+                    <div className="w-1 h-3 left-[2px] top-[2px] absolute outline outline-[1.33px] outline-offset-[-0.67px] outline-neutral-950" />
+                </div>
+                <div className="left-[48px] top-[6px] absolute justify-start text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Sair</div>
+            </div>
+        </div>
+        <div className="w-64 h-60 px-4 pt-4 left-[1px] top-[115px] absolute flex flex-col justify-start items-start gap-2">
+            <div className="self-stretch h-12 pl-4 bg-green-50 rounded-[10px] inline-flex justify-start items-center gap-3">
+                <div className="w-5 h-5 relative overflow-hidden">
+                    <div className="w-1.5 h-2 left-[2.50px] top-[2.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-green-700" />
+                    <div className="w-1.5 h-1 left-[11.67px] top-[2.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-green-700" />
+                    <div className="w-1.5 h-2 left-[11.67px] top-[10px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-green-700" />
+                    <div className="w-1.5 h-1 left-[2.50px] top-[13.33px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-green-700" />
+                </div>
+                <div className="w-20 h-6 relative">
+                    <div className="left-0 top-[-2px] absolute justify-start text-green-700 text-base font-normal font-['Arimo'] leading-6">Dashboard</div>
+                </div>
+            </div>
+            <div className="self-stretch h-12 pl-4 rounded-[10px] inline-flex justify-start items-center gap-3">
+                <div className="w-5 h-5 relative overflow-hidden">
+                    <div className="w-1.5 h-3.5 left-[10px] top-[2.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                    <div className="w-1.5 h-[5px] left-[3.33px] top-[6.67px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                    <div className="w-3 h-0 left-[4.17px] top-[17.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                </div>
+                <div className="w-36 h-6 relative">
+                    <div className="left-0 top-[-2px] absolute justify-start text-gray-700 text-base font-normal font-['Arimo'] leading-6">Gestão de Sementes</div>
+                </div>
+            </div>
+            <div className="self-stretch h-12 pl-4 rounded-[10px] inline-flex justify-start items-center gap-3">
+                <div className="w-5 h-5 relative overflow-hidden">
+                    <div className="w-3.5 h-3.5 left-[2.50px] top-[2.70px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                    <div className="w-0 h-3 left-[12.50px] top-[4.80px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                    <div className="w-0 h-3 left-[7.50px] top-[2.70px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                </div>
+                <div className="w-32 h-6 relative">
+                    <div className="left-0 top-[-2px] absolute justify-start text-gray-700 text-base font-normal font-['Arimo'] leading-6">Jornadas de Guia</div>
+                </div>
+            </div>
+            <div className="self-stretch h-12 pl-4 rounded-[10px] inline-flex justify-start items-center gap-3">
+                <div className="w-5 h-5 relative overflow-hidden">
+                    <div className="w-3 h-[5px] left-[4.17px] top-[12.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                    <div className="w-1.5 h-1.5 left-[6.67px] top-[2.50px] absolute outline outline-[1.67px] outline-offset-[-0.83px] outline-gray-700" />
+                </div>
+                <div className="w-9 h-6 relative">
+                    <div className="left-0 top-[-2px] absolute justify-start text-gray-700 text-base font-normal font-['Arimo'] leading-6">Perfil</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
