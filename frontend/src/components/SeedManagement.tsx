@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Plus, Search, Edit, Trash2, Calendar, Package } from 'lucide-react';
+import { Plus, Search, Edit, Trash2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Label } from './ui/label';
-import { Badge } from './ui/badge';
 import {
   Table,
   TableBody,
@@ -14,150 +13,95 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table';
+import api from '../services/api';
 
-interface Seed {
-  id: string;
+interface Semente {
+  id: number;
   name: string;
-  type: string;
-  variety: string;
-  supplier: string;
-  warehouse: string;
+  category: string;
   quantity: number;
-  unit: string;
-  expiryDate: string;
-  batchNumber: string;
-  status: 'available' | 'low' | 'expired';
+  status: string;
+  harvestDate: string;
+  image: string;
 }
 
 export function SeedManagement() {
-  const [seeds, setSeeds] = useState<Seed[]>([]);
-
-  useEffect(() => {
-    const fetchSementes = async () => {
-      try {
-        const response = await fetch('/api/sementes');
-        if (!response.ok) {
-          throw new Error('Failed to fetch sementes');
-        }
-        const data = await response.json();
-        setSeeds(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchSementes();
-  }, []);
-
+  const [seeds, setSeeds] = useState<Semente[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingSeed, setEditingSeed] = useState<Seed | null>(null);
+  const [editingSeed, setEditingSeed] = useState<Semente | null>(null);
   const [formData, setFormData] = useState({
     name: '',
-    type: '',
-    variety: '',
-    supplier: '',
-    warehouse: '',
+    category: '',
     quantity: '',
-    unit: 'kg',
-    expiryDate: '',
-    batchNumber: '',
+    status: '',
+    harvestDate: '',
+    image: '',
   });
 
-  const fetchSementes = async () => {
+  useEffect(() => {
+    fetchSeeds();
+  }, []);
+
+  const fetchSeeds = async () => {
     try {
-      const response = await fetch('/api/sementes');
-      if (!response.ok) {
-        throw new Error('Failed to fetch sementes');
-      }
-      const data = await response.json();
-      setSeeds(data);
+      const response = await api.get('/sementes');
+      setSeeds(response.data);
     } catch (error) {
-      console.error(error);
+      console.error('Failed to fetch seeds:', error);
     }
   };
 
-  useEffect(() => {
-    fetchSementes();
-  }, []);
-
   const filteredSeeds = seeds.filter(seed =>
     seed.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    seed.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    seed.variety.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    seed.batchNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    seed.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const url = editingSeed ? `/api/sementes/${editingSeed.id}` : '/api/sementes';
-    const method = editingSeed ? 'PUT' : 'POST';
+    const data = {
+      ...formData,
+      quantity: Number(formData.quantity),
+    };
 
     try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, quantity: Number(formData.quantity) }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save semente');
+      if (editingSeed) {
+        await api.put('/sementes', { ...data, id: editingSeed.id });
+      } else {
+        await api.post('/sementes', data);
       }
-
+      fetchSeeds();
       setIsDialogOpen(false);
       setEditingSeed(null);
-      setFormData({ name: '', type: '', variety: '', supplier: '', warehouse: '', quantity: '', unit: 'kg', expiryDate: '', batchNumber: '' });
-      fetchSementes(); // Refetch sementes after submission
+      setFormData({ name: '', category: '', quantity: '', status: '', harvestDate: '', image: '' });
     } catch (error) {
-      console.error(error);
+      console.error('Failed to save seed:', error);
     }
   };
 
-  const handleEdit = (seed: Seed) => {
+  const handleEdit = (seed: Semente) => {
     setEditingSeed(seed);
     setFormData({
       name: seed.name,
-      type: seed.type,
-      variety: seed.variety,
-      supplier: seed.supplier,
-      warehouse: seed.warehouse,
+      category: seed.category,
       quantity: seed.quantity.toString(),
-      unit: seed.unit,
-      expiryDate: seed.expiryDate,
-      batchNumber: seed.batchNumber,
+      status: seed.status,
+      harvestDate: new Date(seed.harvestDate).toISOString().split('T')[0],
+      image: seed.image,
     });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Tem certeza que deseja excluir esta semente?')) {
       try {
-        const response = await fetch(`/api/sementes/${id}`, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to delete semente');
-        }
-
-        fetchSementes(); // Refetch sementes after deletion
+        await api.delete(`/sementes/${id}`);
+        fetchSeeds();
       } catch (error) {
-        console.error(error);
+        console.error('Failed to delete seed:', error);
       }
     }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const variants = {
-      available: { label: 'Disponível', className: 'bg-green-100 text-green-700' },
-      low: { label: 'Estoque Baixo', className: 'bg-yellow-100 text-yellow-700' },
-      expired: { label: 'Vencido', className: 'bg-red-100 text-red-700' },
-    };
-    const variant = variants[status as keyof typeof variants];
-    return <Badge className={`${variant.className} hover:${variant.className}`}>{variant.label}</Badge>;
   };
 
   return (
@@ -174,7 +118,7 @@ export function SeedManagement() {
               className="bg-gray-900 hover:bg-gray-800 text-white" 
               onClick={() => {
                 setEditingSeed(null);
-                setFormData({ name: '', type: '', variety: '', supplier: '', warehouse: '', quantity: '', unit: 'kg', expiryDate: '', batchNumber: '' });
+                setFormData({ name: '', category: '', quantity: '', status: '', harvestDate: '', image: '' });
               }}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -201,11 +145,11 @@ export function SeedManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="type">Tipo</Label>
+                  <Label htmlFor="category">Categoria</Label>
                   <Input
-                    id="type"
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    id="category"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     placeholder="Ex: Milho, Soja"
                     className="h-11"
                     required
@@ -213,50 +157,6 @@ export function SeedManagement() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="variety">Variedade</Label>
-                  <Input
-                    id="variety"
-                    value={formData.variety}
-                    onChange={(e) => setFormData({ ...formData, variety: e.target.value })}
-                    className="h-11"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="batchNumber">Número do Lote</Label>
-                  <Input
-                    id="batchNumber"
-                    value={formData.batchNumber}
-                    onChange={(e) => setFormData({ ...formData, batchNumber: e.target.value })}
-                    className="h-11"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="supplier">Fornecedor</Label>
-                  <Input
-                    id="supplier"
-                    value={formData.supplier}
-                    onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
-                    className="h-11"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="warehouse">Armazém</Label>
-                  <Input
-                    id="warehouse"
-                    value={formData.warehouse}
-                    onChange={(e) => setFormData({ ...formData, warehouse: e.target.value })}
-                    className="h-11"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="quantity">Quantidade</Label>
                   <Input
@@ -269,27 +169,35 @@ export function SeedManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="unit">Unidade</Label>
-                  <select
-                    id="unit"
-                    value={formData.unit}
-                    onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                    className="w-full h-11 border border-gray-300 rounded-md px-3"
-                  >
-                    <option value="kg">kg</option>
-                    <option value="ton">ton</option>
-                    <option value="saca">saca</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="expiryDate">Validade</Label>
+                  <Label htmlFor="status">Status</Label>
                   <Input
-                    id="expiryDate"
-                    type="date"
-                    value={formData.expiryDate}
-                    onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+                    id="status"
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="h-11"
                     required
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="harvestDate">Data da Colheita</Label>
+                  <Input
+                    id="harvestDate"
+                    type="date"
+                    value={formData.harvestDate}
+                    onChange={(e) => setFormData({ ...formData, harvestDate: e.target.value })}
+                    className="h-11"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="image">URL da Imagem</Label>
+                  <Input
+                    id="image"
+                    value={formData.image}
+                    onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                    className="h-11"
                   />
                 </div>
               </div>
@@ -327,13 +235,10 @@ export function SeedManagement() {
               <TableHeader>
                 <TableRow className="bg-gray-50 hover:bg-gray-50">
                   <TableHead className="font-medium text-gray-700">Nome</TableHead>
-                  <TableHead className="font-medium text-gray-700">Tipo</TableHead>
-                  <TableHead className="font-medium text-gray-700">Variedade</TableHead>
-                  <TableHead className="font-medium text-gray-700">Lote</TableHead>
+                  <TableHead className="font-medium text-gray-700">Categoria</TableHead>
                   <TableHead className="font-medium text-gray-700">Quantidade</TableHead>
-                  <TableHead className="font-medium text-gray-700">Armazém</TableHead>
-                  <TableHead className="font-medium text-gray-700">Validade</TableHead>
                   <TableHead className="font-medium text-gray-700">Status</TableHead>
+                  <TableHead className="font-medium text-gray-700">Data da Colheita</TableHead>
                   <TableHead className="text-right font-medium text-gray-700">Ações</TableHead>
                 </TableRow>
               </TableHeader>
@@ -341,34 +246,19 @@ export function SeedManagement() {
                 {filteredSeeds.map((seed) => (
                   <TableRow key={seed.id} className="hover:bg-gray-50">
                     <TableCell>
-                      <div>
+                      <div className="flex items-center gap-3">
+                        <img src={seed.image} alt={seed.name} className="h-10 w-10 rounded-md object-cover" />
                         <div className="text-gray-900 font-medium">{seed.name}</div>
-                        <div className="text-sm text-gray-500">{seed.supplier}</div>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <Badge className="bg-gray-100 text-gray-700 hover:bg-gray-100">
-                        {seed.type}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-gray-600">{seed.variety}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm text-gray-600">
-                        <Package className="h-3.5 w-3.5 text-gray-400" />
-                        <span className="font-mono text-xs">{seed.batchNumber}</span>
-                      </div>
-                    </TableCell>
+                    <TableCell>{seed.category}</TableCell>
                     <TableCell className="text-gray-900 font-medium">
-                      {seed.quantity.toLocaleString()} {seed.unit}
+                      {seed.quantity}
                     </TableCell>
-                    <TableCell className="text-gray-600">{seed.warehouse}</TableCell>
+                    <TableCell>{seed.status}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm text-gray-600">
-                        <Calendar className="h-3.5 w-3.5 text-gray-400" />
-                        {new Date(seed.expiryDate).toLocaleDateString('pt-BR')}
-                      </div>
+                      {new Date(seed.harvestDate).toLocaleDateString('pt-BR')}
                     </TableCell>
-                    <TableCell>{getStatusBadge(seed.status)}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
                         <Button

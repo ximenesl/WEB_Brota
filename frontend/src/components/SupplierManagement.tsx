@@ -1,135 +1,93 @@
 import { useState, useEffect } from 'react';
-import { Plus, Search, Edit, Trash2, Phone, Mail, Building, Star } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Phone, Mail, Building } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Label } from './ui/label';
 import { Badge } from './ui/badge';
+import api from '../services/api';
 
-interface Supplier {
-  id: string;
-  name: string;
-  contact: string;
+interface Fornecedor {
+  id: number;
+  nome: string;
+  cnpjcpf: string;
+  endereco: string;
+  telefone: string;
   email: string;
-  phone: string;
-  address: string;
-  category: string;
-  rating: number;
+  produtos: string;
 }
 
 export function SupplierManagement() {
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-
-  useEffect(() => {
-    const fetchSuppliers = async () => {
-      try {
-        const response = await fetch('/api/fornecedores');
-        if (!response.ok) {
-          throw new Error('Failed to fetch suppliers');
-        }
-        const data = await response.json();
-        setSuppliers(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchSuppliers();
-  }, []);
-
+  const [suppliers, setSuppliers] = useState<Fornecedor[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
+  const [editingSupplier, setEditingSupplier] = useState<Fornecedor | null>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    contact: '',
+    nome: '',
+    cnpjcpf: '',
+    endereco: '',
+    telefone: '',
     email: '',
-    phone: '',
-    address: '',
-    category: '',
-    rating: '5',
+    produtos: '',
   });
+
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
 
   const fetchSuppliers = async () => {
     try {
-      const response = await fetch('/api/fornecedores');
-      if (!response.ok) {
-        throw new Error('Failed to fetch suppliers');
-      }
-      const data = await response.json();
-      setSuppliers(data);
+      const response = await api.get('/fornecedor');
+      setSuppliers(response.data);
     } catch (error) {
-      console.error(error);
+      console.error('Failed to fetch suppliers:', error);
     }
   };
 
-  useEffect(() => {
-    fetchSuppliers();
-  }, []);
-
   const filteredSuppliers = suppliers.filter(supplier =>
-    supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    supplier.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    supplier.contact.toLowerCase().includes(searchTerm.toLowerCase())
+    supplier.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    supplier.produtos.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const url = editingSupplier ? `/api/fornecedores/${editingSupplier.id}` : '/api/fornecedores';
-    const method = editingSupplier ? 'PUT' : 'POST';
-
     try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, rating: Number(formData.rating) }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save supplier');
+      if (editingSupplier) {
+        await api.put('/fornecedor', { ...formData, id: editingSupplier.id });
+      } else {
+        await api.post('/fornecedor', formData);
       }
-
+      fetchSuppliers();
       setIsDialogOpen(false);
       setEditingSupplier(null);
-      setFormData({ name: '', contact: '', email: '', phone: '', address: '', category: '', rating: '5' });
-      fetchSuppliers(); // Refetch suppliers after submission
+      setFormData({ nome: '', cnpjcpf: '', endereco: '', telefone: '', email: '', produtos: '' });
     } catch (error) {
-      console.error(error);
+      console.error('Failed to save supplier:', error);
     }
   };
 
-  const handleEdit = (supplier: Supplier) => {
+  const handleEdit = (supplier: Fornecedor) => {
     setEditingSupplier(supplier);
     setFormData({
-      name: supplier.name,
-      contact: supplier.contact,
+      nome: supplier.nome,
+      cnpjcpf: supplier.cnpjcpf,
+      endereco: supplier.endereco,
+      telefone: supplier.telefone,
       email: supplier.email,
-      phone: supplier.phone,
-      address: supplier.address,
-      category: supplier.category,
-      rating: supplier.rating.toString(),
+      produtos: supplier.produtos,
     });
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Tem certeza que deseja excluir este fornecedor?')) {
       try {
-        const response = await fetch(`/api/fornecedores/${id}`, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to delete supplier');
-        }
-
-        fetchSuppliers(); // Refetch suppliers after deletion
+        await api.delete(`/fornecedor/${id}`);
+        fetchSuppliers();
       } catch (error) {
-        console.error(error);
+        console.error('Failed to delete supplier:', error);
       }
     }
   };
@@ -148,7 +106,7 @@ export function SupplierManagement() {
               className="bg-gray-900 hover:bg-gray-800 text-white" 
               onClick={() => {
                 setEditingSupplier(null);
-                setFormData({ name: '', contact: '', email: '', phone: '', address: '', category: '', rating: '5' });
+                setFormData({ nome: '', cnpjcpf: '', endereco: '', telefone: '', email: '', produtos: '' });
               }}
             >
               <Plus className="h-4 w-4 mr-2" />
@@ -167,18 +125,18 @@ export function SupplierManagement() {
                 <Label htmlFor="name">Nome da Empresa</Label>
                 <Input
                   id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  value={formData.nome}
+                  onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                   className="h-11"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="contact">Pessoa de Contato</Label>
+                <Label htmlFor="cnpjcpf">CNPJ/CPF</Label>
                 <Input
-                  id="contact"
-                  value={formData.contact}
-                  onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                  id="cnpjcpf"
+                  value={formData.cnpjcpf}
+                  onChange={(e) => setFormData({ ...formData, cnpjcpf: e.target.value })}
                   className="h-11"
                   required
                 />
@@ -199,8 +157,8 @@ export function SupplierManagement() {
                   <Label htmlFor="phone">Telefone</Label>
                   <Input
                     id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    value={formData.telefone}
+                    onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
                     className="h-11"
                     required
                   />
@@ -210,37 +168,22 @@ export function SupplierManagement() {
                 <Label htmlFor="address">Endereço</Label>
                 <Input
                   id="address"
-                  value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  value={formData.endereco}
+                  onChange={(e) => setFormData({ ...formData, endereco: e.target.value })}
                   className="h-11"
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Categoria Principal</Label>
-                  <Input
-                    id="category"
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    placeholder="Ex: Milho, Soja"
-                    className="h-11"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="rating">Avaliação (1-5)</Label>
-                  <Input
-                    id="rating"
-                    type="number"
-                    min="1"
-                    max="5"
-                    value={formData.rating}
-                    onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
-                    className="h-11"
-                    required
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="produtos">Produtos</Label>
+                <Input
+                  id="produtos"
+                  value={formData.produtos}
+                  onChange={(e) => setFormData({ ...formData, produtos: e.target.value })}
+                  placeholder="Ex: Milho, Soja"
+                  className="h-11"
+                  required
+                />
               </div>
               <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
@@ -275,11 +218,11 @@ export function SupplierManagement() {
             <CardContent className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h3 className="text-gray-900 mb-1">{supplier.name}</h3>
-                  <p className="text-sm text-gray-500">{supplier.contact}</p>
+                  <h3 className="text-gray-900 mb-1">{supplier.nome}</h3>
+                  <p className="text-sm text-gray-500">{supplier.cnpjcpf}</p>
                 </div>
                 <Badge className="bg-gray-100 text-gray-700 hover:bg-gray-100">
-                  {supplier.category}
+                  {supplier.produtos}
                 </Badge>
               </div>
 
@@ -290,22 +233,11 @@ export function SupplierManagement() {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Phone className="h-4 w-4 text-gray-400" />
-                  <span>{supplier.phone}</span>
+                  <span>{supplier.telefone}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Building className="h-4 w-4 text-gray-400" />
-                  <span>{supplier.address}</span>
-                </div>
-
-                <div className="flex items-center gap-1 pt-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${
-                        i < supplier.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
+                  <span>{supplier.endereco}</span>
                 </div>
 
                 <div className="flex gap-2 pt-3 border-t border-gray-100">

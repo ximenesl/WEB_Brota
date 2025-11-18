@@ -1,77 +1,44 @@
---- Session Log ---
+# Log de Alterações
 
-**Initial Setup & Project Structure:**
-- Created the required directory structure for the React frontend: `src/components/common`, `src/components/layout`, `src/components/features`, `src/context`, `src/hooks`, `src/pages`, `src/router`, `src/services`, `src/styles`.
-- Installed necessary frontend dependencies: `styled-components`, `react-router-dom`, `react-icons`.
-- Moved `Logo.png` from `frontend/src/assets` to `frontend/public/brota` (later reverted).
+## 18 de Novembro de 2025
 
-**Global Styles & Common Components (Styled Components Phase):**
-- Added Google Fonts import for 'Arimo' to `frontend/index.html`.
-- Created `frontend/src/styles/GlobalStyles.js` with global CSS resets, custom color variables, and 'Arimo' font family.
-- Created `frontend/src/components/common/Button.jsx` with primary and secondary variants.
-- Created `frontend/src/components/common/Input.jsx` with optional icon support.
-- Created `frontend/src/components/common/Badge.jsx` with 'disponivel', 'esgotado', and 'estoquebaixo' variants.
-- Created `frontend/src/components/common/Select.jsx` for styled dropdowns.
-
-**Layout Components (Styled Components Phase):**
-- Created `frontend/src/components/layout/Sidebar.jsx` with navigation links and logo.
-- Created `frontend/src/components/layout/MainLayout.jsx` to wrap pages with the sidebar.
-
-**Authentication (Styled Components Phase):**
-- Created mock authentication service `frontend/src/services/auth.js`.
-- Created `frontend/src/context/AuthContext.jsx` for user state management.
-- Created `frontend/src/hooks/useAuth.js` for easy context consumption.
-- Created `frontend/src/pages/Login.jsx` and `frontend/src/pages/Cadastro.jsx` based on design, using a placeholder background image.
-
-**Routing Setup:**
-- Created `frontend/src/router/index.jsx` with public and protected routes.
-- Created placeholder pages for `Dashboard`, `GestaoSementes`, `AdicionarSemente`, `EditarSemente`, `Perfil`.
-- Updated `frontend/src/App.jsx` to use `AuthProvider` and `RouterProvider`.
-- Updated `frontend/src/main.jsx` to render `GlobalStyles` and `App`.
-
-**Seed Management (Styled Components Phase):**
-- Created mock seed service `frontend/src/services/seeds.js`.
-- Created `frontend/src/hooks/useSeeds.js` for seed data management.
-- Created `frontend/src/components/features/SeedCard.jsx` to display seed information.
-- Created `frontend/src/components/features/SeedForm.jsx` for adding/editing seeds.
-- Updated `frontend/src/pages/GestaoSementes.jsx`, `AdicionarSemente.jsx`, `EditarSemente.jsx` to use seed components and hooks.
-
-**Backend Reorganization:**
-- Moved all backend-related files (`mvnw`, `mvnw.cmd`, `pom.xml`, `.mvn`, `bin`, `src`, `target`) into a new `backend/` directory.
-
-**Backend Analysis & New Feature Implementation:**
-- Analyzed `ArmazemController.java` and `FornecedorController.java` to understand API endpoints and data models.
-- Created `frontend/src/services/armazem.js` and `frontend/src/services/fornecedor.js` for API calls.
-- Created `frontend/src/hooks/useArmazem.js` and `frontend/src/hooks/useFornecedor.js`.
-- Created `frontend/src/components/features/ArmazemCard.jsx` and `ArmazemForm.jsx`.
-- Created `frontend/src/components/features/FornecedorCard.jsx` and `FornecedorForm.jsx`.
-- Created `frontend/src/pages/GestaoArmazem.jsx`, `AdicionarArmazem.jsx`, `EditarArmazem.jsx`.
-- Created `frontend/src/pages/GestaoFornecedor.jsx`, `AdicionarFornecedor.jsx`, `EditarFornecedor.jsx`.
-- Updated `frontend/src/components/layout/Sidebar.jsx` and `frontend/src/router/index.jsx` to include new Armazém and Fornecedor routes.
-
-**Frontend-Backend Integration (Real Services & Backend Creation):**
-- Updated `frontend/src/services/seeds.js` to use `fetch` calls to a backend `/api/sementes` endpoint.
-- Created backend `Semente` model, DAO, service, and controller (`backend/src/main/java/com/brota/brotaapi/model/Semente.java`, `dao/SementeDAO.java`, `dao/SementeDAOImpl.java`, `service/SementeService.java`, `service/SementeServiceImpl.java`, `controller/SementeController.java`).
-- Updated `frontend/src/services/auth.js` to use `fetch` calls to backend `/api/auth/login` and `/api/auth/register` endpoints.
-- Created backend `User` model, DAO, service, and a simplified `AuthController` (`backend/src/main/java/com/brota/brotaapi/model/User.java`, `dao/UserDAO.java`, `dao/UserDAOImpl.java`, `service/UserService.java`, `service/UserServiceImpl.java`, `controller/AuthController.java`).
-- Added CORS configuration to the backend (`backend/src/main/java/com/brota/brotaapi/config/WebConfig.java`).
-
-**CSS Refactoring (Styled Components to Tailwind CSS):**
-- **Reverted Logo Location:** Moved `Logo.png` back from `frontend/public/brota` to `frontend/src/assets` and deleted `frontend/public/brota`. Updated import paths in `Sidebar.jsx`, `Login.jsx`, `Cadastro.jsx`.
-- **Installed Tailwind CSS:** Installed `tailwindcss`, `postcss`, `autoprefixer`.
-- **Configured Tailwind:** Manually created `postcss.config.js` and `tailwind.config.js`. Configured `tailwind.config.js` to scan `.jsx` files and extended the theme with custom colors and the 'Arimo' font.
-- **Recreated `index.css`:** Created `frontend/src/index.css` with Tailwind directives.
-- **Updated `main.jsx`:** Removed `GlobalStyles` import and added `index.css` import.
-- **Refactored all components and pages to Tailwind CSS:**
-    - Extracted styled-components definitions into separate `.styles.js` files for each component/page.
-    - Rewrote each component/page to use Tailwind CSS utility classes directly in JSX.
-    - Deleted all `.styles.js` files.
-    - Uninstalled `styled-components` and deleted `frontend/src/styles/GlobalStyles.js`.
-
-**Current State:**
-- The frontend is fully refactored to use Tailwind CSS, maintaining the original aesthetic.
-- All frontend services are configured to communicate with the backend.
-- The backend has been reorganized and extended with CRUD functionalities for Sementes, Armazéns, Fornecedores, and a simplified user authentication system, including CORS.
-- All identified necessary screens (Login, Cadastro, Dashboard, Gestão de Sementes, Adicionar Semente, Editar Semente, Perfil, Gestão de Armazéns, Adicionar Armazém, Editar Armazém, Gestão de Fornecedores, Adicionar Fornecedor, Editar Fornecedor) have been created.
-
----
+- **07:15:** Iniciei a tarefa de conectar o frontend com o backend.
+- **07:15:** Criei uma lista de tarefas (To-Do list) para organizar o trabalho.
+- **07:16:** Iniciei a análise do backend para entender a API.
+- **07:16:** Listei os controladores do backend.
+- **07:17:** Analisei o `AuthController.java` para entender os endpoints de autenticação.
+- **07:17:** Analisei o `SementeController.java` para entender os endpoints de sementes.
+- **07:18:** Analisei o `FornecedorController.java` para entender os endpoints de fornecedores.
+- **07:18:** Analisei o `ArmazemController.java` para entender os endpoints de armazéns.
+- **07:18:** Marquei a tarefa "Entender a API do Backend" como concluída.
+- **07:19:** Iniciei a análise dos componentes do frontend.
+- **07:19:** Listei os componentes do frontend.
+- **07:20:** Analisei o `LoginPage.tsx` para entender a estrutura da página de login.
+- **07:20:** Analisei o `RegisterPage.tsx` para entender a estrutura da página de registro.
+- **07:21:** Analisei o `App.tsx` para entender a estrutura principal do frontend.
+- **07:21:** Marquei a tarefa "Analisar os Componentes do Frontend" como concluída.
+- **07:21:** Iniciei a tarefa de conectar o frontend com o backend.
+- **07:22:** Criei o diretório `frontend/src/services`.
+- **07:22:** Instalei o `axios` no frontend.
+- **07:23:** Criei o arquivo `frontend/src/services/api.ts` com a configuração do `axios`.
+- **07:23:** Implementei a lógica de autenticação no `App.tsx`, conectando com o backend.
+- **07:24:** Marquei a tarefa "Implementar Autenticação" como concluída.
+- **07:24:** Iniciei a implementação do CRUD de Sementes.
+- **07:25:** Analisei o `SeedManagement.tsx`.
+- **07:25:** Analisei o modelo `Semente.java` do backend.
+- **07:26:** Implementei o CRUD de Sementes no `SeedManagement.tsx`, conectando com o backend.
+- **07:26:** Marquei a tarefa "Implementar CRUD de Sementes" como concluída.
+- **07:27:** Iniciei a implementação do CRUD de Fornecedores.
+- **07:27:** Analisei o `SupplierManagement.tsx`.
+- **07:28:** Analisei o modelo `Fornecedor.java` do backend.
+- **07:28:** Implementei o CRUD de Fornecedores no `SupplierManagement.tsx`, conectando com o backend.
+- **07:29:** Marquei a tarefa "Implementar CRUD de Fornecedores" como concluída.
+- **07:29:** Iniciei a implementação do CRUD de Armazéns.
+- **07:30:** Analisei o `WarehouseManagement.tsx`.
+- **07:30:** Analisei o modelo `Armazem.java` do backend.
+- **07:31:** Implementei o CRUD de Armazéns no `WarehouseManagement.tsx`, conectando com o backend.
+- **07:31:** Marquei a tarefa "Implementar CRUD de Armazéns" como concluída.
+- **07:32:** Tentei iniciar o servidor backend, mas falhou.
+- **07:33:** Tentei novamente iniciar o servidor backend com o comando correto para Windows.
+- **07:34:** O servidor backend iniciou, mas com erros.
+- **07:35:** Decidi focar no frontend, conforme solicitado pelo usuário.

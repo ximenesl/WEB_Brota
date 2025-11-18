@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LoginPage } from './components/LoginPage';
 import { RegisterPage } from './components/RegisterPage';
 import { Dashboard } from './components/Dashboard';
@@ -7,14 +7,14 @@ import { SupplierManagement } from './components/SupplierManagement';
 import { SeedManagement } from './components/SeedManagement';
 import { ProfilePage } from './components/ProfilePage';
 import { Sidebar } from './components/Sidebar';
+import api from './services/api';
 
 export type Page = 'login' | 'register' | 'dashboard' | 'warehouses' | 'suppliers' | 'seeds' | 'profile';
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  role: string;
   avatar?: string;
 }
 
@@ -22,29 +22,42 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('login');
   const [user, setUser] = useState<User | null>(null);
 
-  const handleLogin = (email: string, password: string) => {
-    // Mock login - In production, this would authenticate with backend
-    setUser({
-      id: '1',
-      name: 'João Silva',
-      email: email,
-      role: 'Administrador',
-    });
-    setCurrentPage('dashboard');
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setCurrentPage('dashboard');
+    }
+  }, []);
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      const response = await api.post('/auth/login', { email, password });
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
+      setCurrentPage('dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Invalid email or password');
+    }
   };
 
-  const handleRegister = (name: string, email: string, password: string) => {
-    // Mock registration - In production, this would create user in backend
-    setUser({
-      id: '1',
-      name: name,
-      email: email,
-      role: 'Usuário',
-    });
-    setCurrentPage('dashboard');
+  const handleRegister = async (name: string, email: string, password: string) => {
+    try {
+      const response = await api.post('/auth/register', { name, email, password });
+      const user = response.data;
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
+      setCurrentPage('dashboard');
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('Registration failed. Please try again.');
+    }
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('user');
     setUser(null);
     setCurrentPage('login');
   };
