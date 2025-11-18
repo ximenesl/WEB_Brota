@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { login as loginService, register as registerService, logout as logoutService } from '../services/auth';
+import { login as loginService, register as registerService, logout as logoutService, updateProfile } from '../services/auth';
 
 export const AuthContext = createContext(null);
 
@@ -56,6 +56,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  const updateUser = async (userId, userData) => {
+    setLoading(true);
+    try {
+      const updatedUser = await updateProfile(userId, userData);
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Update failed:", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     user,
     isAuthenticated: !!user,
@@ -63,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    updateUser,
   };
 
   return (

@@ -1,15 +1,21 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useSeeds } from '../hooks/useSeeds';
 import SeedCard from '../components/features/SeedCard';
 import Button from '../components/common/Button';
-import { FiPlus } from 'react-icons/fi';
+import Input from '../components/common/Input';
+import Modal from '../components/common/Modal';
+import SeedForm from '../components/features/SeedForm';
+import { FiPlus, FiSearch } from 'react-icons/fi';
 
 const GestaoSementes = () => {
-  const { seeds, loading, deleteSeed } = useSeeds();
-  const navigate = useNavigate();
+  const { seeds, loading, deleteSeed, addSeed, updateSeed } = useSeeds();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingSeed, setEditingSeed] = useState(null);
 
-  const handleEdit = (id) => {
-    navigate(`/sementes/editar/${id}`);
+  const handleEdit = (seed) => {
+    setEditingSeed(seed);
+    setIsModalOpen(true);
   };
 
   const handleDelete = async (id) => {
@@ -18,33 +24,77 @@ const GestaoSementes = () => {
     }
   };
 
+  const handleFormSubmit = async (seedData) => {
+    if (editingSeed) {
+      await updateSeed(editingSeed.id, seedData);
+    } else {
+      await addSeed(seedData);
+    }
+    setIsModalOpen(false);
+    setEditingSeed(null);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingSeed(null);
+  };
+
+  const filteredSeeds = seeds.filter((seed) =>
+    seed.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="p-8 bg-gray-50">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-normal">Gestão de Sementes</h1>
-        <Button onClick={() => navigate('/sementes/adicionar')}>
-          <FiPlus />
+        <div>
+          <h1 className="text-2xl font-normal font-['Arimo'] leading-9 text-neutral-950">Gestão de Sementes</h1>
+          <p className="text-base font-normal font-['Arimo'] leading-6 text-gray-600">Gerencie seu inventário de sementes</p>
+        </div>
+        <Button onClick={() => setIsModalOpen(true)} className="bg-gray-950 rounded-lg">
+          <FiPlus className="w-4 h-4" />
           Adicionar Semente
         </Button>
       </div>
 
+      <div className="mb-6">
+        <Input
+          icon={<FiSearch />}
+          type="text"
+          placeholder="Buscar sementes..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="bg-zinc-100"
+        />
+      </div>
+
       {loading && <p className="text-center p-12">Carregando sementes...</p>}
 
-      {!loading && seeds.length > 0 && (
+      {!loading && filteredSeeds.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {seeds.map((seed) => (
+          {filteredSeeds.map((seed) => (
             <SeedCard
               key={seed.id}
               seed={seed}
-              onEdit={() => handleEdit(seed.id)}
+              onEdit={() => handleEdit(seed)}
               onDelete={() => handleDelete(seed.id)}
             />
           ))}
         </div>
       )}
 
-      {!loading && seeds.length === 0 && (
+      {!loading && filteredSeeds.length === 0 && (
         <p>Nenhuma semente encontrada.</p>
+      )}
+
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <SeedForm
+            onSubmit={handleFormSubmit}
+            onCancel={closeModal}
+            initialSeed={editingSeed}
+            loading={loading}
+          />
+        </Modal>
       )}
     </div>
   );

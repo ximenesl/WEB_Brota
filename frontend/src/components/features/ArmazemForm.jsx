@@ -4,9 +4,9 @@ import Button from '../common/Button';
 
 const ArmazemForm = ({ onSubmit, onCancel, initialData, loading }) => {
   const [armazem, setArmazem] = useState({
-    nome: '',
-    localização: '',
-    responsável: '',
+    name: '',
+    location: '',
+    manager: '',
   });
 
   const isEditMode = !!initialData;
@@ -28,46 +28,50 @@ const ArmazemForm = ({ onSubmit, onCancel, initialData, loading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-white border border-border-color rounded-[14px] max-w-2xl mx-auto">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="nome" className="text-sm font-medium text-dark-text">Nome do Armazém</label>
-        <Input
-          id="nome"
-          name="nome"
-          value={armazem.nome}
-          onChange={handleChange}
-          required
-        />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="text-lg font-bold font-['Arimo'] leading-4 text-neutral-950">
+        {isEditMode ? 'Editar Armazém' : 'Novo Armazém'}
       </div>
+      <div className="text-sm font-normal font-['Arimo'] leading-5 text-gray-500">
+        {isEditMode ? 'Atualize os detalhes do armazém' : 'Adicione um novo armazém ao inventário'}
+      </div>
+      
+      <Input
+        label="Nome"
+        name="name"
+        value={armazem.name}
+        onChange={handleChange}
+        placeholder="Nome do armazém"
+        required
+        className="bg-zinc-100"
+      />
+      
+      <Input
+        label="Localização"
+        name="location"
+        value={armazem.location}
+        onChange={handleChange}
+        placeholder="Localização do armazém"
+        required
+        className="bg-zinc-100"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="localização" className="text-sm font-medium text-dark-text">Localização</label>
-        <Input
-          id="localização"
-          name="localização"
-          value={armazem.localização}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor="responsável" className="text-sm font-medium text-dark-text">Responsável</label>
-        <Input
-          id="responsável"
-          name="responsável"
-          value={armazem.responsável}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <Input
+        label="Responsável"
+        name="manager"
+        value={armazem.manager}
+        onChange={handleChange}
+        placeholder="Nome do responsável"
+        required
+        className="bg-zinc-100"
+      />
 
       <div className="flex justify-end gap-4 mt-4">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>
             Cancelar
         </Button>
-        <Button type="submit" variant="primary" disabled={loading}>
-          {loading ? 'Salvando...' : (isEditMode ? 'Salvar Alterações' : 'Adicionar Armazém')}
+        <Button type="submit" variant="primary" disabled={loading} className="bg-gray-950">
+          {loading ? 'Salvando...' : (isEditMode ? 'Salvar Alterações' : 'Adicionar')}
         </Button>
       </div>
     </form>

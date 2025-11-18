@@ -7,19 +7,16 @@ const SeedForm = ({ onSubmit, onCancel, initialSeed, loading }) => {
   const [seed, setSeed] = useState({
     name: '',
     category: '',
+    type: '',
     quantity: 0,
-    status: 'Disponível',
-    harvestDate: '',
+    harvest_time: 0,
   });
 
   const isEditMode = !!initialSeed;
 
   useEffect(() => {
     if (isEditMode) {
-      setSeed({
-        ...initialSeed,
-        harvestDate: initialSeed.harvestDate ? new Date(initialSeed.harvestDate).toISOString().split('T')[0] : '',
-      });
+      setSeed(initialSeed);
     }
   }, [initialSeed, isEditMode]);
 
@@ -34,69 +31,75 @@ const SeedForm = ({ onSubmit, onCancel, initialSeed, loading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 bg-white border border-border-color rounded-[14px] max-w-2xl mx-auto">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="name" className="text-sm font-medium text-dark-text">Nome da Semente</label>
-        <Input
-          id="name"
-          name="name"
-          value={seed.name}
-          onChange={handleChange}
-          placeholder="Ex: Tomate Cereja"
-          required
-        />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <div className="text-lg font-bold font-['Arimo'] leading-4 text-neutral-950">
+        {isEditMode ? 'Editar Semente' : 'Nova Semente'}
       </div>
+      <div className="text-sm font-normal font-['Arimo'] leading-5 text-gray-500">
+        {isEditMode ? 'Atualize os detalhes da semente' : 'Adicione uma nova semente ao inventário'}
+      </div>
+      
+      <Input
+        label="Nome"
+        name="name"
+        value={seed.name}
+        onChange={handleChange}
+        placeholder="Nome da semente"
+        required
+        className="bg-zinc-100"
+      />
+      
+      <Select
+        label="Categoria"
+        name="category"
+        value={seed.category}
+        onChange={handleChange}
+        required
+        className="bg-zinc-100"
+      >
+        <option value="">Selecione uma categoria</option>
+        <option value="Hortaliças">Hortaliças</option>
+        <option value="Frutas">Frutas</option>
+        <option value="Ervas">Ervas</option>
+        <option value="Grãos">Grãos</option>
+      </Select>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="category" className="text-sm font-medium text-dark-text">Categoria</label>
-        <Input
-          id="category"
-          name="category"
-          value={seed.category}
-          onChange={handleChange}
-          placeholder="Ex: Fruta, Verdura"
-          required
-        />
-      </div>
+      <Input
+        label="Tipo"
+        name="type"
+        value={seed.type}
+        onChange={handleChange}
+        placeholder="Ex: Vegetal, Erva"
+        required
+        className="bg-zinc-100"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="quantity" className="text-sm font-medium text-dark-text">Quantidade</label>
-        <Input
-          id="quantity"
-          name="quantity"
-          type="number"
-          value={seed.quantity}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <Input
+        label="Quantidade"
+        name="quantity"
+        type="number"
+        value={seed.quantity}
+        onChange={handleChange}
+        required
+        className="bg-zinc-100"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="status" className="text-sm font-medium text-dark-text">Status</label>
-        <Select id="status" name="status" value={seed.status} onChange={handleChange} required>
-            <option value="Disponível">Disponível</option>
-            <option value="Esgotado">Esgotado</option>
-        </Select>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor="harvestDate" className="text-sm font-medium text-dark-text">Data da Próxima Colheita</label>
-        <Input
-          id="harvestDate"
-          name="harvestDate"
-          type="date"
-          value={seed.harvestDate}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <Input
+        label="Dias até Colheita"
+        name="harvest_time"
+        type="number"
+        value={seed.harvest_time}
+        onChange={handleChange}
+        required
+        className="bg-zinc-100"
+      />
 
       <div className="flex justify-end gap-4 mt-4">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>
             Cancelar
         </Button>
-        <Button type="submit" variant="primary" disabled={loading}>
-          {loading ? 'Salvando...' : (isEditMode ? 'Salvar Alterações' : 'Adicionar Semente')}
+        <Button type="submit" variant="primary" disabled={loading} className="bg-gray-950">
+          {loading ? 'Salvando...' : (isEditMode ? 'Salvar Alterações' : 'Adicionar')}
         </Button>
       </div>
     </form>

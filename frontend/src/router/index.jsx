@@ -9,15 +9,9 @@ import Login from '../pages/Login';
 import Cadastro from '../pages/Cadastro';
 import Dashboard from '../pages/Dashboard';
 import GestaoSementes from '../pages/GestaoSementes';
-import AdicionarSemente from '../pages/AdicionarSemente';
-import EditarSemente from '../pages/EditarSemente';
 import Perfil from '../pages/Perfil';
 import GestaoArmazem from '../pages/GestaoArmazem';
-import AdicionarArmazem from '../pages/AdicionarArmazem';
-import EditarArmazem from '../pages/EditarArmazem';
 import GestaoFornecedor from '../pages/GestaoFornecedor';
-import AdicionarFornecedor from '../pages/AdicionarFornecedor';
-import EditarFornecedor from '../pages/EditarFornecedor';
 
 // A wrapper for routes that require authentication.
 const ProtectedRoute = () => {
@@ -66,36 +60,12 @@ const router = createBrowserRouter([
         element: <GestaoSementes />,
       },
       {
-        path: 'sementes/adicionar',
-        element: <AdicionarSemente />,
-      },
-      {
-        path: 'sementes/editar/:id',
-        element: <EditarSemente />,
-      },
-      {
         path: 'armazem',
         element: <GestaoArmazem />,
       },
       {
-        path: 'armazem/adicionar',
-        element: <AdicionarArmazem />,
-      },
-      {
-        path: 'armazem/editar/:id',
-        element: <EditarArmazem />,
-      },
-      {
         path: 'fornecedor',
         element: <GestaoFornecedor />,
-      },
-      {
-        path: 'fornecedor/adicionar',
-        element: <AdicionarFornecedor />,
-      },
-      {
-        path: 'fornecedor/editar/:id',
-        element: <EditarFornecedor />,
       },
       {
         path: 'perfil',

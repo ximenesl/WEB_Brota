@@ -2,40 +2,55 @@ import { FiEdit, FiTrash2, FiPackage } from 'react-icons/fi';
 import Badge from '../common/Badge';
 
 const SeedCard = ({ seed, onEdit, onDelete }) => {
-  const { name, category, quantity, status, harvestDate, image } = seed;
+  const { name, category, quantity, status, harvest_time, image } = seed;
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Disponível':
+        return 'bg-green-500';
+      case 'Estoque Baixo':
+        return 'bg-yellow-500';
+      case 'Esgotado':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
 
   return (
-    <div className="bg-white border border-border-color rounded-[14px] overflow-hidden flex flex-col transition-shadow duration-200 ease-in-out hover:shadow-lg">
-      <img src={image} alt={name} className="w-full h-[180px] object-cover" />
-      <div className="p-4 flex-grow flex flex-col">
-        <div className="flex justify-between items-start mb-2">
-          <div className="flex items-center gap-2">
-            <div className="bg-[#DCFCE7] text-primary rounded-[10px] w-8 h-8 flex items-center justify-center">
-              <FiPackage className="w-[18px] h-[18px]" />
-            </div>
-            <h3 className="text-lg font-semibold text-dark-text">{name}</h3>
+    <div className="bg-white rounded-2xl outline outline-1 outline-offset-[-1px] outline-black/10">
+      <div className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-green-100 rounded-[10px] flex justify-center items-center">
+            <FiPackage className="w-6 h-6 text-green-600" />
           </div>
-          <Badge>{status}</Badge>
-        </div>
-        <p className="text-sm text-secondary-text mb-4">{category}</p>
-        
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="text-sm">
-            <strong className="text-dark-text block mb-0.5">Quantidade</strong>
-            <span className="text-secondary-text">{quantity}</span>
-          </div>
-          <div className="text-sm">
-            <strong className="text-dark-text block mb-0.5">Próx. Colheita</strong>
-            <span className="text-secondary-text">{new Date(harvestDate).toLocaleDateString()}</span>
+          <div>
+            <h3 className="text-base font-normal font-['Arimo'] leading-6 text-neutral-950">{name}</h3>
+            <p className="text-base font-normal font-['Arimo'] leading-6 text-gray-500">{category}</p>
           </div>
         </div>
-
-        <div className="mt-auto pt-4 border-t border-border-light flex justify-end gap-2">
-          <button onClick={onEdit} aria-label={`Editar ${name}`} className="flex items-center justify-center p-2 rounded-lg text-secondary-text transition-colors hover:bg-input-background hover:text-dark-text">
+        <div className="flex flex-col gap-3">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Quantidade:</span>
+            <span className="text-neutral-950 text-base font-normal font-['Arimo'] leading-6">{quantity} unidades</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Status:</span>
+            <Badge className={`${getStatusClass(status)} text-white`}>{status}</Badge>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600 text-sm font-normal font-['Arimo'] leading-5">Colheita:</span>
+            <span className="text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">{harvest_time} dias</span>
+          </div>
+        </div>
+        <div className="flex justify-start items-start gap-2 pt-2 mt-4 border-t border-gray-100">
+          <button onClick={onEdit} className="flex-1 h-8 relative bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-black/10 flex justify-center items-center gap-2">
             <FiEdit className="w-4 h-4" />
+            <span className="text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Editar</span>
           </button>
-          <button onClick={onDelete} aria-label={`Excluir ${name}`} className="flex items-center justify-center p-2 rounded-lg text-secondary-text transition-colors hover:bg-input-background hover:text-dark-text">
+          <button onClick={onDelete} className="flex-1 h-8 relative bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-black/10 flex justify-center items-center gap-2">
             <FiTrash2 className="w-4 h-4" />
+            <span className="text-neutral-950 text-sm font-normal font-['Arimo'] leading-5">Excluir</span>
           </button>
         </div>
       </div>

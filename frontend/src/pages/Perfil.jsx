@@ -1,79 +1,67 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import Input from '../components/common/Input';
-import Button from '../components/common/Button';
+import ProfileHeader from '../components/features/ProfileHeader';
+import ProfileStats from '../components/features/ProfileStats';
+import InformacoesPessoais from '../components/features/InformacoesPessoais';
+import Notificacoes from '../components/features/Notificacoes';
+import Seguranca from '../components/features/Seguranca';
 
 const Perfil = () => {
-  const { user, loading } = useAuth();
-  const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    telefone: '+55 (11) 98765-4321', // mock
-    localizacao: 'São Paulo, SP', // mock
-  });
+  const { user, updateUser } = useAuth();
+  const [activeTab, setActiveTab] = useState('info');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const stats = [
+    { value: '24', label: 'Sementes Cadastradas' },
+    { value: '8', label: 'Jornadas Ativas' },
+    { value: '15', label: 'Colheitas Realizadas' },
+    { value: '87%', label: 'Taxa de Sucesso' },
+  ];
+
+  const handleUpdatePhoto = () => {
+    alert('Funcionalidade de alterar foto ainda não implementada.');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real app, you would call a service to update the user profile.
-    console.log('Updating profile with:', formData);
-    alert('Perfil atualizado com sucesso! (mock)');
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'info':
+        return <InformacoesPessoais user={user} onUpdate={updateUser} />;
+      case 'notifications':
+        return <Notificacoes />;
+      case 'security':
+        return <Seguranca />;
+      default:
+        return null;
+    }
   };
-
-  const getInitials = (name) => {
-    if (!name) return '';
-    const names = name.split(' ');
-    const first = names[0]?.[0] || '';
-    const last = names.length > 1 ? names[names.length - 1]?.[0] : '';
-    return `${first}${last}`.toUpperCase();
-  }
 
   return (
-    <div>
-        <div className="bg-white border border-border-color rounded-[14px] p-6 flex items-center gap-6 mb-6">
-            <div className="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-semibold flex-shrink-0">
-              {getInitials(user?.name)}
-            </div>
-            <div className="flex-grow">
-                <h2 className="text-xl font-semibold">{user?.name}</h2>
-                <p className="text-secondary-text">{user?.email}</p>
-            </div>
-            <Button variant="secondary">Alterar Foto</Button>
-        </div>
+    <div className="p-8 bg-gray-50">
+      <div className="mb-6">
+        <h1 className="text-2xl font-normal font-['Arimo'] leading-9 text-neutral-950">Perfil</h1>
+        <p className="text-base font-normal font-['Arimo'] leading-6 text-gray-600">Gerencie suas informações pessoais e preferências</p>
+      </div>
+      <div className="mb-6">
+        <ProfileHeader user={user} onUpdatePhoto={handleUpdatePhoto} />
+      </div>
+      <div className="mb-8">
+        <ProfileStats stats={stats} />
+      </div>
+      
+      <div className="flex justify-start items-start gap-2 mb-8">
+        <button onClick={() => setActiveTab('info')} className={`px-4 py-2 rounded-lg ${activeTab === 'info' ? 'bg-white' : 'bg-transparent'}`}>
+          Informações Pessoais
+        </button>
+        <button onClick={() => setActiveTab('notifications')} className={`px-4 py-2 rounded-lg ${activeTab === 'notifications' ? 'bg-white' : 'bg-transparent'}`}>
+          Notificações
+        </button>
+        <button onClick={() => setActiveTab('security')} className={`px-4 py-2 rounded-lg ${activeTab === 'security' ? 'bg-white' : 'bg-transparent'}`}>
+          Segurança
+        </button>
+      </div>
 
-        <form onSubmit={handleSubmit} className="bg-white border border-border-color rounded-[14px]">
-            <div className="p-6 border-b border-border-light">
-                <h3 className="text-lg font-semibold">Informações Pessoais</h3>
-                <p className="text-secondary-text text-sm">Atualize suas informações de perfil.</p>
-            </div>
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="name" className="text-sm font-medium text-dark-text">Nome Completo</label>
-                    <Input id="name" name="name" value={formData.name} onChange={handleChange} />
-                </div>
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="email" className="text-sm font-medium text-dark-text">Email</label>
-                    <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} />
-                </div>
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="telefone" className="text-sm font-medium text-dark-text">Telefone</label>
-                    <Input id="telefone" name="telefone" value={formData.telefone} onChange={handleChange} />
-                </div>
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="localizacao" className="text-sm font-medium text-dark-text">Localização</label>
-                    <Input id="localizacao" name="localizacao" value={formData.localizacao} onChange={handleChange} />
-                </div>
-            </div>
-            <div className="p-4 px-6 border-t border-border-light flex justify-end">
-                <Button type="submit" disabled={loading}>
-                    {loading ? 'Salvando...' : 'Salvar Alterações'}
-                </Button>
-            </div>
-        </form>
+      <div>
+        {renderTabContent()}
+      </div>
     </div>
   );
 };

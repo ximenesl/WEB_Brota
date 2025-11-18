@@ -46,4 +46,26 @@ export const logout = async () => {
   localStorage.removeItem('user');
   return Promise.resolve();
 };
+
+export const updateProfile = async (userId, userData) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = user?.token;
+
+  const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Falha ao atualizar perfil.');
+  }
+
+  const updatedUser = await response.json();
+  return updatedUser;
+};
+
   
