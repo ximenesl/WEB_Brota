@@ -1,4 +1,4 @@
-# WEB_Brota
+# Brota
 
 Este é um projeto de um sistema de gerenciamento de sementes, com um frontend em React e um backend em Java com Spring Boot.
 
