@@ -46,7 +46,3 @@ O servidor backend estará rodando em `http://localhost:8080`.
     ```
 
 O servidor frontend estará rodando em `http://localhost:5173`.
-
-## Log de Alterações
-
-Um log detalhado de todas as alterações feitas neste projeto pode ser encontrado no arquivo `log.txt`.
