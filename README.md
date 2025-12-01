@@ -30,8 +30,6 @@ O servidor backend estará rodando em `http://localhost:8080`.
 
 ### Frontend
 
-Para instruções detalhadas sobre como rodar o frontend, especialmente se você é novo em desenvolvimento frontend, por favor, leia o arquivo `FRONTEND_GUIDE.md`.
-
 1.  **Navegue até a pasta do frontend:**
     ```bash
     cd frontend
