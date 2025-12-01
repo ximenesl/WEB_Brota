@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { LoginPage } from './components/LoginPage';
-import { RegisterPage } from './components/RegisterPage';
-import { Dashboard } from './components/Dashboard';
-import { WarehouseManagement } from './components/WarehouseManagement';
-import { SupplierManagement } from './components/SupplierManagement';
-import { SeedManagement } from './components/SeedManagement';
-import { ProfilePage } from './components/ProfilePage';
-import { Sidebar } from './components/Sidebar';
-import api from './services/api';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-export type Page = 'login' | 'register' | 'dashboard' | 'warehouses' | 'suppliers' | 'seeds' | 'profile';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { Dashboard } from './pages/Dashboard';
+import { WarehouseManagement } from './pages/WarehouseManagement';
+import { SupplierManagement } from './pages/SupplierManagement';
+import { SeedManagement } from './pages/SeedManagement';
+import { ProfilePage } from './pages/ProfilePage';
+import { Sidebar } from './layouts/Sidebar';
+import api from './services/api';
 
 export interface User {
   id: number;
@@ -18,15 +18,25 @@ export interface User {
   avatar?: string;
 }
 
+const Layout = ({ user, onLogout, children }) => (
+  <div className="min-h-screen bg-gray-50 flex">
+    <Sidebar 
+      onLogout={onLogout}
+      user={user}
+    />
+    <main className="flex-1 overflow-auto">
+      {children}
+    </main>
+  </div>
+);
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('login');
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      setCurrentPage('dashboard');
     }
   }, []);
 
@@ -36,7 +46,6 @@ export default function App() {
       const user = response.data;
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
-      setCurrentPage('dashboard');
     } catch (error) {
       console.error('Login failed:', error);
       alert('Invalid email or password');
@@ -49,7 +58,6 @@ export default function App() {
       const user = response.data;
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
-      setCurrentPage('dashboard');
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');
@@ -59,42 +67,36 @@ export default function App() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
-    setCurrentPage('login');
   };
 
-  if (!user) {
-    return (
-      <>
-        {currentPage === 'login' ? (
-          <LoginPage 
-            onLogin={handleLogin} 
-            onNavigateToRegister={() => setCurrentPage('register')} 
-          />
+  return (
+    <BrowserRouter>
+      <Routes>
+        {!user ? (
+          <>
+  
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+            <Route path="/register" element={<RegisterPage onRegister={handleRegister} />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </>
         ) : (
-          <RegisterPage 
-            onRegister={handleRegister} 
-            onNavigateToLogin={() => setCurrentPage('login')} 
+          <Route 
+            path="/*"
+            element={
+              <Layout user={user} onLogout={handleLogout}>
+                <Routes>
+                  <Route path="/dashboard" element={<Dashboard user={user} />} />
+                  <Route path="/warehouses" element={<WarehouseManagement />} />
+                  <Route path="/suppliers" element={<SupplierManagement />} />
+                  <Route path="/seeds" element={<SeedManagement />} />
+                  <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                </Routes>
+              </Layout>
+            } 
           />
         )}
-      </>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar 
-        currentPage={currentPage} 
-        onNavigate={setCurrentPage} 
-        onLogout={handleLogout}
-        user={user}
-      />
-      <main className="flex-1 overflow-auto">
-        {currentPage === 'dashboard' && <Dashboard user={user} />}
-        {currentPage === 'warehouses' && <WarehouseManagement />}
-        {currentPage === 'suppliers' && <SupplierManagement />}
-        {currentPage === 'seeds' && <SeedManagement />}
-        {currentPage === 'profile' && <ProfilePage user={user} setUser={setUser} />}
-      </main>
-    </div>
+      </Routes>
+    </BrowserRouter>
   );
 }

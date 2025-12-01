@@ -32,9 +32,6 @@ public class Semente {
     @Column
     private Date harvestDate;
 
-    @Column
-    private String image;
-
     // Getters and Setters
     public Integer getId() {
         return id;
@@ -82,13 +79,5 @@ public class Semente {
 
     public void setHarvestDate(Date harvestDate) {
         this.harvestDate = harvestDate;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 }
